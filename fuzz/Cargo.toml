@@ -1,0 +1,28 @@
+[package]
+name = "datum-fuzz"
+version = "0.0.0"
+authors = ["Automatically generated"]
+publish = false
+edition = "2018"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+
+[dependencies.datum]
+path = ".."
+
+[dependencies.dc_parser]
+path = "../dc_parser"
+
+# Prevent this from interfering with workspaces
+[workspace]
+members = ["."]
+
+[[bin]]
+name = "datum-parser-fuzz"
+path = "fuzz_targets/datum-parser-fuzz.rs"
+test = false
+doc = false
