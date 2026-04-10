@@ -12,7 +12,10 @@ jobs:
   build:
     name: '${{ matrix.os }} shared=${{ matrix.shared }} ${{ matrix.build_type }}'
     runs-on: ${{ matrix.os }}
-    permissions: write-all
+    permissions:
+      packages: write
+      contents: write
+      security-events: write
     outputs:
       image: ${{ steps.meta.outputs.tags }}
     strategy:
@@ -54,7 +57,10 @@ jobs:
   analyze:
     needs: build
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      packages: write
+      contents: write
+      security-events: write
 
     steps:
     - uses: actions/checkout@v6
