@@ -2,5 +2,5 @@ project: datum
 target: datum-parser-fuzz
 
 cmds:
-    - cmd: ./datum-parser-fuzz
-      libfuzzer: true
+  - cmd: /datum-parser-fuzz
+    libfuzzer: true

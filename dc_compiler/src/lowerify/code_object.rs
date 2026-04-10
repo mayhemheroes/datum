@@ -51,7 +51,7 @@ impl<'a> CodeObject<'a> {
         match self.module.get_function("puts") {
             None => {
                 let i32_type = self.context.i32_type();
-                let str_type = self.context.i8_type().ptr_type(AddressSpace::Generic);
+                let str_type = self.context.i8_type().ptr_type(AddressSpace::default());
                 let printf_type = i32_type.fn_type(&[str_type.into()], true);
 
                 printf = self
@@ -72,7 +72,7 @@ impl<'a> CodeObject<'a> {
 
         let gv = self
             .module
-            .add_global(ty, Some(AddressSpace::Generic), name);
+            .add_global(ty, Some(AddressSpace::default()), name);
 
         gv.set_linkage(Linkage::Internal);
 
@@ -85,9 +85,9 @@ impl<'a> CodeObject<'a> {
 
         self.builder.build_pointer_cast(
             gv.as_pointer_value(),
-            self.context.i8_type().ptr_type(AddressSpace::Generic),
+            self.context.i8_type().ptr_type(AddressSpace::default()),
             name,
-        )
+        ).unwrap()
     }
 
     pub fn emit_void(&mut self) {
