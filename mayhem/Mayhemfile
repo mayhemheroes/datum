@@ -1,0 +1,17 @@
+# Ported from the fork's old root Mayhemfile (same target name `datum-parser-fuzz`, same
+# harness code path: dc_parser::parser::parse_program). The harness now lives in the ADDITIVE
+# mayhem/fuzz/ crate (depends only on dc_parser, so the LLVM-12/inkwell codegen stack is not
+# required), built instrumented by mayhem/build.sh.
+project: datum
+target: datum-parser-fuzz
+
+cmds:
+  # libFuzzer target: Mayhem drives inputs through the libFuzzer entrypoint, so NO '@@'.
+  - cmd: /mayhem/datum-parser-fuzz
+    libfuzzer: true
+
+# Seeds: upstream's docs/examples/*.cj datum programs, shipped at the canonical per-target
+# path. Two-entry form: server-accumulated tar + the local seed dir.
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+  - file://mayhem/datum-parser-fuzz/testsuite
